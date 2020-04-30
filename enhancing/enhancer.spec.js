@@ -1,5 +1,5 @@
 const enhancer = require('./enhancer.js');
-const testItem = {durability: 2,
+const testItem = {durability: 12,
                   name: "Mighty Sword of Testing",
                 enhancement: 10}
 
@@ -12,26 +12,6 @@ describe('repair tests', () => {
               const newItem = enhancer.repair(testItem);
             expect(newItem.durability).toBe(repairedItem.durability);
         });
-
-
-        // it('should throw an exception if the parms are not numbers', () => {
-        //     expect(() => { add('red', 2) }).toThrow(); // a string
-        //     expect(() => { add(NaN, 2) }).toThrow(); // NaN
-        //     expect(() => { add([1, 2, 'red']) }).toThrow(); // a string in an array
-        //     expect(() => { add([1, 2, NaN]) }).toThrow(); // NaN in an array
-        //     expect(() => { add({ prop: 'prop' }, 2) }).toThrow(); // an object
-        //     // ... should there be others?
-        // });
-        // it('should return 0 when called with no args', () => {
-        //     const expectedResult = 0;
-        //     const actualResult = add();
-        //     expect(actualResult).toBe(expectedResult);
-        // })
-
-        // it('should handle more than two arguments', () => {
-        //     expect(add(1, 2, 3)).toBe(6);
-        //     expect(add(1, 2, 3, 5)).toBe(11);
-        // })
 
     })
 })
@@ -67,7 +47,7 @@ describe('failure tests', ()=>{
         console.log("New Item:", newItem)
     })
     it('should decrease durability by 10 if enhancement greater than or equal to 15', ()=>{
-        const failItem = {durability: 2,
+        const failItem = {durability: 12,
             name: "Mighty Sword of Testing",
           enhancement: 15};
           const newFailItem = enhancer.fail(failItem);
@@ -75,12 +55,26 @@ describe('failure tests', ()=>{
           console.log("New Fail Item:", newFailItem)
     })
     it('should decrease enhancement by 1 if enhancement is greater than 16', ()=>{
-        const failItem = {durability: 2,
+        const failItem = {durability: 12,
             name: "Mighty Sword of Testing",
           enhancement: 17};
           const newFailItem = enhancer.fail(failItem);
           expect(newFailItem.durability).toBe(failItem.durability-10);
           expect(newFailItem.enhancement).toBe(failItem.enhancement-1);
           console.log("New Fail Item:", newFailItem)
+    })
+    it('should not decrease durability below 0', ()=>{
+        const failItem = {durability: 9,
+        name: "blah",
+        enhancement: 17};
+        const newFailItem=enhancer.fail(failItem);
+        expect(newFailItem.durability).toBe(0);
+    })
+    it('should not decrease durability below 0 when enhancement is less than 15',()=>{
+        const failItem = {durability: 4,
+            name: "blah",
+            enhancement: 14};
+            const newFailItem=enhancer.fail(failItem);
+            expect(newFailItem.durability).toBe(0);
     })
 })
